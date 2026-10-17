@@ -1,0 +1,92 @@
+[10/08/2026 08:56:03] Servidor nao respondeu a tempo - reiniciando o servico.
+[10/08/2026 08:56:04] Comando de reinicio enviado.
+[10/08/2026 08:59:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[10/08/2026 08:59:02] Comando de reinicio enviado.
+[10/08/2026 09:02:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[10/08/2026 09:02:03] Comando de reinicio enviado.
+[10/08/2026 09:05:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[10/08/2026 09:05:03] Comando de reinicio enviado.
+[10/08/2026 09:08:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[10/08/2026 09:08:03] Comando de reinicio enviado.
+[10/08/2026 09:11:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[10/08/2026 09:11:02] Comando de reinicio enviado.
+[10/08/2026 09:14:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[10/08/2026 09:14:03] Comando de reinicio enviado.
+[10/08/2026 09:17:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[10/08/2026 09:17:03] Comando de reinicio enviado.
+[21/08/2026 08:29:03] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:29:03] Comando de reinicio enviado.
+[21/08/2026 08:32:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:32:03] Comando de reinicio enviado.
+[21/08/2026 08:35:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:35:03] Comando de reinicio enviado.
+[21/08/2026 08:38:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:38:02] Comando de reinicio enviado.
+[21/08/2026 08:41:03] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:41:03] Comando de reinicio enviado.
+[21/08/2026 08:44:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:44:03] Comando de reinicio enviado.
+[21/08/2026 08:47:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:47:03] Comando de reinicio enviado.
+[21/08/2026 08:50:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:50:03] Comando de reinicio enviado.
+[21/08/2026 08:53:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:53:03] Comando de reinicio enviado.
+[21/08/2026 08:56:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:56:03] Comando de reinicio enviado.
+[21/08/2026 08:59:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 08:59:03] Comando de reinicio enviado.
+[21/08/2026 09:02:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:02:03] Comando de reinicio enviado.
+[21/08/2026 09:05:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:05:03] Comando de reinicio enviado.
+[21/08/2026 09:08:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:08:03] Comando de reinicio enviado.
+[21/08/2026 09:11:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:11:03] Comando de reinicio enviado.
+[21/08/2026 09:14:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:14:03] Comando de reinicio enviado.
+[21/08/2026 09:17:03] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:17:03] Comando de reinicio enviado.
+[21/08/2026 09:20:03] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:20:03] Comando de reinicio enviado.
+[21/08/2026 09:23:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:23:03] Comando de reinicio enviado.
+[21/08/2026 09:26:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:26:03] Comando de reinicio enviado.
+[21/08/2026 09:29:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:29:03] Comando de reinicio enviado.
+[21/08/2026 09:32:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:32:03] Comando de reinicio enviado.
+[21/08/2026 09:35:03] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:35:03] Comando de reinicio enviado.
+[21/08/2026 09:38:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:38:03] Comando de reinicio enviado.
+[21/08/2026 09:41:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:41:03] Comando de reinicio enviado.
+[21/08/2026 09:44:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:44:03] Comando de reinicio enviado.
+[21/08/2026 09:47:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:47:03] Comando de reinicio enviado.
+[21/08/2026 09:50:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:50:03] Comando de reinicio enviado.
+[21/08/2026 09:53:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:53:03] Comando de reinicio enviado.
+[21/08/2026 09:56:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:56:03] Comando de reinicio enviado.
+[21/08/2026 09:59:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 09:59:03] Comando de reinicio enviado.
+[21/08/2026 10:02:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 10:02:03] Comando de reinicio enviado.
+[21/08/2026 10:05:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 10:05:03] Comando de reinicio enviado.
+[21/08/2026 10:08:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 10:08:03] Comando de reinicio enviado.
+[21/08/2026 10:11:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 10:11:03] Comando de reinicio enviado.
+[21/08/2026 10:14:03] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 10:14:03] Comando de reinicio enviado.
+[21/08/2026 10:17:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[21/08/2026 10:17:03] Comando de reinicio enviado.
+[16/10/2026 14:23:02] Servidor nao respondeu a tempo - reiniciando o servico.
+[16/10/2026 14:23:03] Comando de reinicio enviado.

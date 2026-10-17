@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Control - Mobile</title>
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #1a1a1a;
+            color: #e8e8e8;
+        }
+
+        h1, h2, h3 {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: #2b2b2b;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            margin-bottom: 20px;
+            border: 1px solid #3a3a3a;
+        }
+
+        .form-group { margin-bottom: 16px; }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 6px;
+            color: #b0b0b0;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #3f3f3f;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            background-color: #212121;
+            color: #ffffff;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1f6aa5;
+        }
+
+        input::placeholder, textarea::placeholder { color: #777777; }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #1f6aa5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        button:hover { background-color: #144870; }
+
+        .pedido-item {
+            border-bottom: 1px solid #3a3a3a;
+            padding: 14px 0;
+        }
+
+        .pedido-item:last-child { border-bottom: none; }
+        .pedido-item strong { color: #ffffff; }
+        .pedido-item small { color: #b0b0b0; display: block; margin-top: 2px; }
+
+        .status {
+            display: inline-block;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            background-color: #3a3a1a;
+            color: #f0c419;
+        }
+
+        /* --- Abas --- */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            width: auto;
+            padding: 12px;
+            background-color: #2b2b2b;
+            border: 1px solid #3a3a3a;
+            color: #b0b0b0;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 0;
+        }
+
+        .tab-btn.ativo {
+            background-color: #1f6aa5;
+            color: white;
+            border-color: #1f6aa5;
+        }
+
+        #buscaPedido, #buscaHistorico, #filtroEntregadorRomaneio {
+            margin-bottom: 0;
+        }
+
+        .pedido-item-lista {
+            border-bottom: 1px solid #3a3a3a;
+            padding: 14px 0;
+        }
+
+        .pedido-item-lista:last-child { border-bottom: none; }
+
+        .pedido-acoes {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .pedido-acoes select {
+            width: auto;
+            flex: 1;
+            padding: 8px;
+            font-size: 14px;
+        }
+
+        .btn-excluir {
+            width: auto;
+            padding: 8px 14px;
+            background-color: #8b2020;
+            font-size: 13px;
+            margin-top: 0;
+        }
+
+        .btn-excluir:hover { background-color: #6b1818; }
+
+        .btn-editar {
+            width: auto;
+            padding: 8px 14px;
+            background-color: #3a3a3a;
+            font-size: 13px;
+            margin-top: 0;
+        }
+
+        .btn-editar:hover { background-color: #4a4a4a; }
+
+        .btn-cancelar {
+            width: auto;
+            padding: 12px 16px;
+            background-color: transparent;
+            border: 1px solid #3f3f3f;
+            color: #b0b0b0;
+        }
+
+        .btn-cancelar:hover { background-color: #2b2b2b; }
+
+        .btn-imprimir-cupom {
+            background-color: #28a745;
+            padding: 8px 14px;
+            font-size: 13px;
+            width: auto;
+            margin-top: 8px;
+        }
+        .btn-imprimir-cupom:hover { background-color: #218838; }
+    </style>
+</head>
+<body>
+
+    <div class="tabs">
+        <button class="tab-btn ativo" id="btnAbaNovo" onclick="mostrarAba('novo')">📝 Novo</button>
+        <button class="tab-btn" id="btnAbaLista" onclick="mostrarAba('lista')">📋 Lista</button>
+        <button class="tab-btn" id="btnAbaEntregas" onclick="mostrarAba('entregas')">🚚 Entregas</button>
+    </div>
+
+    <!-- ABA 1: NOVO PEDIDO -->
+    <div id="abaNovo">
+        <h1>🚀 Novo Pedido</h1>
+
+        <div class="card">
+            <form id="formPedido">
+                <div class="form-group">
+                    <label>Cliente:</label>
+                    <input type="text" id="cliente" required placeholder="Nome do cliente">
+                </div>
+                <div class="form-group">
+                    <label>Telefone:</label>
+                    <input type="tel" id="telefone" placeholder="(00) 00000-0000">
+                </div>
+                <div class="form-group">
+                    <label>Endereço:</label>
+                    <input type="text" id="endereco" required placeholder="Rua, Número, Bairro">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Pedido:</label>
+                    <select id="tipo_pedido">
+                        <option value="Entrega">Entrega (Motoboy)</option>
+                        <option value="Retirada">Retirada no Balcão</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Produtos / Itens:</label>
+                    <textarea id="produto" rows="3" required placeholder="Ex: 1x X-Salada, 1x Coca 2L"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Valor (R$):</label>
+                    <input type="number" step="0.01" id="valor" required placeholder="0.00">
+                </div>
+                <div class="form-group">
+                    <label>Forma de Pagamento:</label>
+                    <select id="pagamento">
+                        <option value="Pix">Pix</option>
+                        <option value="Cartão de Crédito">Cartão de Crédito</option>
+                        <option value="Cartão de Débito">Cartão de Débito</option>
+                        <option value="Dinheiro">Dinheiro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Situação do Pagamento:</label>
+                    <select id="forma_pagamento">
+                        <option value=""></option>
+                        <option value="PAGO">PAGO</option>
+                        <option value="RECEBER NA ENTREGA">RECEBER NA ENTREGA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Vendedor / Atendente:</label>
+                    <input type="text" id="vendedor" value="Celular">
+                </div>
+                <div class="form-group">
+                    <label>Observação:</label>
+                    <input type="text" id="observacao" placeholder="Ex: Sem cebola, troco para 50">
+                </div>
+                <button type="submit">Enviar Pedido</button>
+            </form>
+        </div>
+
+        <h2>📋 Últimos Pedidos</h2>
+        <div class="card" id="listaPedidos">
+            <p>Carregando pedidos...</p>
+        </div>
+    </div>
+
+    <!-- ABA 2: LISTA GERAL -->
+    <div id="abaLista" style="display: none;">
+        <h1>📋 Lista de Pedidos</h1>
+
+        <div class="card">
+            <input type="text" id="buscaPedido" placeholder="Pesquisar por número, cliente ou produto..." oninput="filtrarListaCompleta()">
+        </div>
+
+        <div class="card" id="listaCompleta">
+            <p>Carregando pedidos...</p>
+        </div>
+    </div>
+
+    <!-- ABA 3: ENTREGAS & ROMANEIO -->
+    <div id="abaEntregas" style="display: none;">
+        <h1>🚚 Controle e Romaneio</h1>
+
+        <div class="card">
+            <div class="form-group">
+                <label>Filtrar Entregador (para Romaneio):</label>
+                <input type="text" id="filtroEntregadorRomaneio" placeholder="Ex: Pedro..." oninput="carregarPainelEntregas()">
+            </div>
+            <button onclick="imprimirRomaneio()" style="background-color: #28a745; margin-top: 0;">🖨️ Imprimir Romaneio (80mm)</button>
+        </div>
+
+        <div class="card" id="painelEntregasContainer">
+            <p>Digite o nome do entregador para ver as entregas dele.</p>
+        </div>
+
+        <h2>📜 Histórico de Entregas</h2>
+        <div class="card">
+            <div class="form-group">
+                <input type="text" id="buscaHistorico" placeholder="Filtrar histórico por entregador ou cliente..." oninput="carregarHistoricoEntregas()">
+            </div>
+            <div id="historicoEntregasContainer">
+                <p>Carregando histórico...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STATUS_VALIDOS = ["Aguardando", "Saiu para entrega", "Entregue", "Cancelado"];
+        let todosOsPedidos = [];
+
+        function mostrarAba(nome) {
+            const ehNovo = nome === 'novo';
+            const ehLista = nome === 'lista';
+            const ehEntregas = nome === 'entregas';
+
+            document.getElementById('abaNovo').style.display = ehNovo ? '' : 'none';
+            document.getElementById('abaLista').style.display = ehLista ? '' : 'none';
+            document.getElementById('abaEntregas').style.display = ehEntregas ? '' : 'none';
+
+            document.getElementById('btnAbaNovo').classList.toggle('ativo', ehNovo);
+            document.getElementById('btnAbaLista').classList.toggle('ativo', ehLista);
+            document.getElementById('btnAbaEntregas').classList.toggle('ativo', ehEntregas);
+
+            if (ehLista) carregarListaCompleta();
+            if (ehEntregas) {
+                carregarPainelEntregas();
+                carregarHistoricoEntregas();
+            }
+        }
+
+        async function carregarPedidos() {
+            const res = await fetch('/api/pedidos');
+            const pedidos = await res.json();
+            const container = document.getElementById('listaPedidos');
+            container.innerHTML = '';
+
+            if (pedidos.length === 0) {
+                container.innerHTML = '<p>Nenhum pedido cadastrado.</p>';
+                return;
+            }
+
+            pedidos.slice(0, 10).forEach(p => {
+                const tipo = (p.tipo_pedido || 'Entrega').toUpperCase();
+                const div = document.createElement('div');
+                div.className = 'pedido-item';
+                div.innerHTML = `
+                    <strong>#${p.numero_pedido} - ${p.cliente}</strong> (${p.hora || ''})<br>
+                    <small>Modalidade: <strong style="color: #f0c419; font-size: 13px;">${tipo}</strong></small>
+                    <small>Endereço: ${p.endereco || 'Não informado'}</small>
+                    <small>Itens: ${p.produto}</small>
+                    <small>Valor: <strong>R$ ${p.valor.toFixed(2)}</strong> (${p.pagamento})</small>
+                    <small>Atendente: ${p.vendedor || 'Celular'} | Obs: ${p.observacao || 'Nenhuma'}</small>
+                    <small>Status: <span class="status">${p.status}</span></small>
+                    <button class="btn-imprimir-cupom" onclick='imprimirCupom(${JSON.stringify(p)})'>🖨️ Imprimir Cupom (80mm)</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Função ajustada para enviar o pedido diretamente ao backend (printer.py)
+        async function imprimirCupom(p) {
+            try {
+                const res = await fetch('/api/imprimir', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(p)
+                });
+
+                const resultado = await res.json();
+                
+                if (!res.ok) {
+                    alert("Erro na impressora: " + (resultado.mensagem || "Erro desconhecido"));
+                }
+            } catch (error) {
+                console.error("Erro ao tentar imprimir:", error);
+                alert("Não foi possível conectar ao serviço de impressão do Python.");
+            }
+        }
+
+        async function carregarListaCompleta() {
+            const res = await fetch('/api/pedidos');
+            todosOsPedidos = await res.json();
+            filtrarListaCompleta();
+        }
+
+        function filtrarListaCompleta() {
+            const termo = document.getElementById('buscaPedido').value.trim().toLowerCase();
+            const container = document.getElementById('listaCompleta');
+
+            let pedidos = todosOsPedidos;
+            if (termo) {
+                pedidos = pedidos.filter(p =>
+                    String(p.numero_pedido).includes(termo) ||
+                    (p.cliente || '').toLowerCase().includes(termo) ||
+                    (p.produto || '').toLowerCase().includes(termo) ||
+                    (p.entregador || '').toLowerCase().includes(termo)
+                );
+            }
+
+            container.innerHTML = '';
+
+            if (pedidos.length === 0) {
+                container.innerHTML = '<p>Nenhum pedido encontrado.</p>';
+                return;
+            }
+
+            pedidos.forEach(p => {
+                const opcoesStatus = STATUS_VALIDOS.map(s =>
+                    `<option value="${s}" ${s === p.status ? 'selected' : ''}>${s}</option>`
+                ).join('');
+
+                const tipo = (p.tipo_pedido || 'Entrega').toUpperCase();
+                const div = document.createElement('div');
+                div.className = 'pedido-item-lista';
+                div.id = `pedido-${p.numero_pedido}`;
+                div.innerHTML = `
+                    <div>
+                        <strong>#${p.numero_pedido} - ${p.cliente}</strong> (${p.data || ''} ${p.hora || ''})<br>
+                        <small>Modalidade: <strong style="color: #f0c419; font-size: 13px;">${tipo}</strong></small>
+                        <small>Itens: ${p.produto} - <strong>R$ ${p.valor.toFixed(2)}</strong> (${p.pagamento})</small>
+                        <small>Endereço: ${p.endereco || ''}</small>
+                    </div>
+                    <div class="form-group" style="margin-top: 8px; margin-bottom: 0;">
+                        <label style="font-size: 12px; margin-bottom: 2px;">Entregador:</label>
+                        <input type="text" id="entregador-${p.numero_pedido}" value="${p.entregador || ''}" placeholder="Nome do motoboy..." onchange="salvarEntregador(${p.numero_pedido}, this.value)">
+                    </div>
+                    <div class="pedido-acoes">
+                        <select onchange="alterarStatus(${p.numero_pedido}, this.value)">
+                            ${opcoesStatus}
+                        </select>
+                        <button class="btn-imprimir-cupom" style="margin-top:0;" onclick='imprimirCupom(${JSON.stringify(p)})'>🖨️ Reimprimir</button>
+                        <button class="btn-editar" onclick="editarPedido(${p.numero_pedido})">Editar</button>
+                        <button class="btn-excluir" onclick="excluirPedido(${p.numero_pedido})">Excluir</button>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        async function salvarEntregador(numeroPedido, nomeEntregador) {
+            const p = todosOsPedidos.find(item => item.numero_pedido === numeroPedido);
+            if (!p) return;
+
+            const payload = {
+                cliente: p.cliente,
+                endereco: p.endereco,
+                produto: p.produto,
+                valor: p.valor,
+                pagamento: p.pagamento,
+                vendedor: p.vendedor,
+                observacao: p.observacao,
+                tipo_pedido: p.tipo_pedido,
+                entregador: nomeEntregador
+            };
+
+            await fetch(`/api/pedidos/${numeroPedido}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        }
+
+        async function carregarPainelEntregas() {
+            const res = await fetch('/api/pedidos');
+            const pedidos = await res.json();
+            const container = document.getElementById('painelEntregasContainer');
+            const nomeBusca = document.getElementById('filtroEntregadorRomaneio').value.trim().toLowerCase();
+
+            const entregasAtivas = pedidos.filter(p => {
+                const ehEntrega = (p.tipo_pedido || 'Entrega') === 'Entrega';
+                const naoConcluido = p.status !== 'Entregue' && p.status !== 'Cancelado';
+                const matchEntregador = nomeBusca ? (p.entregador || '').toLowerCase().includes(nomeBusca) : true;
+                return ehEntrega && naoConcluido && matchEntregador;
+            });
+
+            if (entregasAtivas.length === 0) {
+                container.innerHTML = '<p>Nenhuma entrega ativa encontrada para este filtro.</p>';
+                return;
+            }
+
+            let html = `<h3>Entregas Ativas / Em Rota</h3>`;
+            entregasAtivas.forEach(p => {
+                html += `
+                    <div class="pedido-item-lista">
+                        <strong>#${p.numero_pedido} - ${p.cliente}</strong><br>
+                        <small>Endereço: ${p.endereco}</small><br>
+                        <small>${p.produto} - <strong>R$ ${p.valor.toFixed(2)}</strong> (${p.pagamento})</small><br>
+                        <small>Entregador: <strong style="color: #4CAF50;">${p.entregador || 'Não atribuído'}</strong> | Status: <span class="status">${p.status}</span></small>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function imprimirRomaneio() {
+            const nome = document.getElementById('filtroEntregadorRomaneio').value;
+            if (!nome) {
+                alert('Por favor, digite o nome do entregador para gerar o romaneio.');
+                return;
+            }
+
+            const conteudo = document.getElementById('painelEntregasContainer').innerHTML;
+            const janelaImpressao = window.open('', '', 'height=600,width=400');
+            
+            janelaImpressao.document.write('<html><head><title>Romaneio de Entregas</title>');
+            janelaImpressao.document.write(`
+                <style>
+                    @page { size: 80mm auto; margin: 0; }
+                    body { 
+                        font-family: 'Courier New', Courier, monospace; 
+                        width: 72mm; 
+                        margin: 4mm auto; 
+                        padding: 0; 
+                        color: #000; 
+                        font-size: 12px;
+                        line-height: 1.2;
+                    }
+                    h2 { font-size: 14px; text-align: center; margin-bottom: 5px; }
+                    h3 { font-size: 13px; margin: 5px 0; border-bottom: 1px dashed #000; padding-bottom: 3px; }
+                    .pedido-item-lista { 
+                        border-bottom: 1px dashed #000; 
+                        padding: 6px 0; 
+                        margin-bottom: 6px; 
+                    }
+                    strong { font-weight: bold; }
+                    small { font-size: 11px; display: block; }
+                </style>
+            `);
+            janelaImpressao.document.write('</head><body>');
+            janelaImpressao.document.write(`<h2>ROMANEIO DE ENTREGA</h2>`);
+            janelaImpressao.document.write(`<div style="text-align:center; margin-bottom:10px;">Entregador: <strong>${nome}</strong></div>`);
+            janelaImpressao.document.write(conteudo);
+            janelaImpressao.document.write('</body></html>');
+            
+            janelaImpressao.document.close();
+            janelaImpressao.focus();
+            setTimeout(() => {
+                janelaImpressao.print();
+                janelaImpressao.close();
+            }, 500);
+        }
+
+        async function carregarHistoricoEntregas() {
+            const res = await fetch('/api/pedidos');
+            const pedidos = await res.json();
+            const container = document.getElementById('historicoEntregasContainer');
+            const termoBusca = document.getElementById('buscaHistorico').value.trim().toLowerCase();
+
+            let historico = pedidos.filter(p => {
+                const ehEntrega = (p.tipo_pedido || 'Entrega') === 'Entrega';
+                const estaEntregue = p.status === 'Entregue';
+                return ehEntrega && estaEntregue;
+            });
+
+            if (termoBusca) {
+                historico = historico.filter(p => 
+                    (p.cliente || '').toLowerCase().includes(termoBusca) ||
+                    (p.entregador || '').toLowerCase().includes(termoBusca) ||
+                    String(p.numero_pedido).includes(termoBusca)
+                );
+            }
+
+            if (historico.length === 0) {
+                container.innerHTML = '<p>Nenhum histórico de entrega concluída encontrado.</p>';
+                return;
+            }
+
+            let html = '';
+            historico.reverse().forEach(p => {
+                html += `
+                    <div class="pedido-item-lista">
+                        <strong>#${p.numero_pedido} - ${p.cliente}</strong> (${p.data || ''} ${p.hora || ''})<br>
+                        <small>Endereço: ${p.endereco}</small><br>
+                        <small>Entregue por: <strong style="color: #4CAF50;">${p.entregador || 'Não informado'}</strong></small><br>
+                        <small>Valor: <strong>R$ ${p.valor.toFixed(2)}</strong> (${p.pagamento})</small>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function editarPedido(numeroPedido) {
+            const p = todosOsPedidos.find(item => item.numero_pedido === numeroPedido);
+            if (!p) return;
+
+            const div = document.getElementById(`pedido-${numeroPedido}`);
+            div.innerHTML = `
+                <div class="form-group">
+                    <label>Cliente:</label>
+                    <input type="text" id="edit-cliente-${numeroPedido}" value="${p.cliente || ''}">
+                </div>
+                <div class="form-group">
+                    <label>Telefone:</label>
+                    <input type="tel" id="edit-telefone-${numeroPedido}" value="${p.telefone || ''}">
+                </div>
+                <div class="form-group">
+                    <label>Endereço:</label>
+                    <input type="text" id="edit-endereco-${numeroPedido}" value="${p.endereco || ''}">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Pedido:</label>
+                    <select id="edit-tipo-${numeroPedido}">
+                        <option value="Entrega" ${p.tipo_pedido !== 'Retirada' ? 'selected' : ''}>Entrega (Motoboy)</option>
+                        <option value="Retirada" ${p.tipo_pedido === 'Retirada' ? 'selected' : ''}>Retirada no Balcão</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Produtos / Itens:</label>
+                    <textarea id="edit-produto-${numeroPedido}" rows="3">${p.produto || ''}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Valor (R$):</label>
+                    <input type="number" step="0.01" id="edit-valor-${numeroPedido}" value="${p.valor}">
+                </div>
+                <div class="form-group">
+                    <label>Forma de Pagamento:</label>
+                    <select id="edit-pagamento-${numeroPedido}">
+                        <option value="Pix" ${p.pagamento === 'Pix' ? 'selected' : ''}>Pix</option>
+                        <option value="Cartão de Crédito" ${p.pagamento === 'Cartão de Crédito' ? 'selected' : ''}>Cartão de Crédito</option>
+                        <option value="Cartão de Débito" ${p.pagamento === 'Cartão de Débito' ? 'selected' : ''}>Cartão de Débito</option>
+                        <option value="Dinheiro" ${p.pagamento === 'Dinheiro' ? 'selected' : ''}>Dinheiro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Situação do Pagamento:</label>
+                    <select id="edit-forma-pagamento-${numeroPedido}">
+                        <option value="" ${!p.forma_pagamento ? 'selected' : ''}></option>
+                        <option value="PAGO" ${p.forma_pagamento === 'PAGO' ? 'selected' : ''}>PAGO</option>
+                        <option value="RECEBER NA ENTREGA" ${p.forma_pagamento === 'RECEBER NA ENTREGA' ? 'selected' : ''}>RECEBER NA ENTREGA</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Vendedor / Atendente:</label>
+                    <input type="text" id="edit-vendedor-${numeroPedido}" value="${p.vendedor || ''}">
+                </div>
+                <div class="form-group">
+                    <label>Observação:</label>
+                    <input type="text" id="edit-observacao-${numeroPedido}" value="${p.observacao || ''}">
+                </div>
+                <div class="form-group">
+                    <label>Entregador:</label>
+                    <input type="text" id="edit-entregador-${numeroPedido}" value="${p.entregador || ''}">
+                </div>
+                <div class="pedido-acoes">
+                    <button onclick="salvarEdicao(${numeroPedido})">Salvar</button>
+                    <button class="btn-cancelar" onclick="filtrarListaCompleta()">Cancelar</button>
+                </div>
+            `;
+        }
+
+        async function salvarEdicao(numeroPedido) {
+            const payload = {
+                cliente: document.getElementById(`edit-cliente-${numeroPedido}`).value,
+                telefone: document.getElementById(`edit-telefone-${numeroPedido}`).value,
+                endereco: document.getElementById(`edit-endereco-${numeroPedido}`).value,
+                tipo_pedido: document.getElementById(`edit-tipo-${numeroPedido}`).value,
+                produto: document.getElementById(`edit-produto-${numeroPedido}`).value,
+                valor: parseFloat(document.getElementById(`edit-valor-${numeroPedido}`).value),
+                pagamento: document.getElementById(`edit-pagamento-${numeroPedido}`).value,
+                forma_pagamento: document.getElementById(`edit-forma-pagamento-${numeroPedido}`).value,
+                vendedor: document.getElementById(`edit-vendedor-${numeroPedido}`).value,
+                observacao: document.getElementById(`edit-observacao-${numeroPedido}`).value,
+                entregador: document.getElementById(`edit-entregador-${numeroPedido}`).value
+            };
+
+            const res = await fetch(`/api/pedidos/${numeroPedido}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+                carregarListaCompleta();
+            } else {
+                alert('Erro ao salvar as alterações.');
+            }
+        }
+
+        async function alterarStatus(numeroPedido, novoStatus) {
+            const res = await fetch(`/api/pedidos/${numeroPedido}/status`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: novoStatus })
+            });
+
+            if (!res.ok) {
+                alert('Erro ao atualizar o status.');
+                carregarListaCompleta();
+            }
+        }
+
+        async function excluirPedido(numeroPedido) {
+            if (!confirm(`Excluir definitivamente o pedido #${numeroPedido}?`)) {
+                return;
+            }
+
+            const res = await fetch(`/api/pedidos/${numeroPedido}`, { method: 'DELETE' });
+
+            if (res.ok) {
+                carregarListaCompleta();
+            } else {
+                alert('Erro ao excluir o pedido.');
+            }
+        }
+
+        document.getElementById('formPedido').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const payload = {
+                cliente: document.getElementById('cliente').value,
+                telefone: document.getElementById('telefone').value,
+                endereco: document.getElementById('endereco').value,
+                produto: document.getElementById('produto').value,
+                valor: parseFloat(document.getElementById('valor').value),
+                pagamento: document.getElementById('pagamento').value,
+                forma_pagamento: document.getElementById('forma_pagamento').value,
+                vendedor: document.getElementById('vendedor').value,
+                observacao: document.getElementById('observacao').value,
+                tipo_pedido: document.getElementById('tipo_pedido').value,
+                entregador: ""
+            };
+
+            const res = await fetch('/api/pedidos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+                alert('Pedido enviado com sucesso!');
+                document.getElementById('formPedido').reset();
+                carregarPedidos();
+            } else {
+                alert('Erro ao enviar o pedido.');
+            }
+        });
+
+        carregarPedidos();
+    </script>
+</body>
+</html>

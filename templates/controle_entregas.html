@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Controle de Entregas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>🚚 Painel de Entregas</h2>
+        <a href="/" class="btn btn-secondary">Voltar ao Início</a>
+    </div>
+    <hr>
+
+    <div class="row">
+        <!-- Coluna 1: Pedidos Aguardando Despacho -->
+        <div class="col-md-6">
+            <h4 class="text-danger mb-3">Aguardando Motoboy</h4>
+            {% for pedido in pendentes %}
+            <div class="card mb-3 shadow-sm border-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Pedido #{{ pedido.id }} - {{ pedido.cliente }}</h5>
+                    <p class="card-text">
+                        <strong>Endereço:</strong> {{ pedido.endereco }}<br>
+                        <strong>Valor:</strong> R$ {{ "%.2f"|format(pedido.valor) }}
+                    </p>
+                    
+                    <!-- Formulário com campo de texto livre para o entregador -->
+                    <form action="/despachar/{{ pedido.id }}" method="POST" class="form-inline">
+                        <input type="text" name="entregador" class="form-control mr-2 mb-2 mb-sm-0" placeholder="Nome do entregador..." required autocomplete="off">
+                        <button type="submit" class="btn btn-danger btn-sm">Despachar</button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-secondary">Nenhum pedido aguardando.</div>
+            {% endfor %}
+        </div>
+
+        <!-- Coluna 2: Pedidos Em Rota -->
+        <div class="col-md-6">
+            <h4 class="text-success mb-3">Na Rua (Em Rota)</h4>
+            {% for pedido in em_rota %}
+            <div class="card mb-3 border-success shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Pedido #{{ pedido.id }} - {{ pedido.cliente }}</h5>
+                    <p class="card-text">
+                        <strong>Levado por:</strong> <span class="badge badge-info" style="font-size: 14px;">{{ pedido.entregador }}</span><br>
+                        <strong>Endereço:</strong> {{ pedido.endereco }}
+                    </p>
+                    <!-- Botão para marcar como concluído quando o motoboy voltar -->
+                    <form action="/concluir_entrega/{{ pedido.id }}" method="POST">
+                        <button type="submit" class="btn btn-outline-success btn-sm w-100">✔ Marcar como Entregue</button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-secondary">Nenhum entregador na rua no momento.</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</body>
+</html>
